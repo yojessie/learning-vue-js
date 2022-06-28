@@ -1,7 +1,7 @@
 # Vue.js 시작하기
 
 1. node 설치
-2. Vue 설치
+2. Vue project 빠르게 생성해주는 라이브러리 설치
 
 - npm install -g @vue/cli
 - MAC : permission error 발생
