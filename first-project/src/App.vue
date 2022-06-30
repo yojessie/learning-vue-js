@@ -9,20 +9,28 @@
   <div>
     <h4>{{ products[0] }}</h4>
     <p>{{ prices[0] }}만원</p>
+    <button @click="addCount">허위매물신고</button>
+    <!-- 이벤트리스너 사용하기 : v-on:click=" " 혹은 @click=" " -->
+    <span>신고 수 : {{ buttonCount[0] }}</span>
   </div>
   <div>
     <h4>{{ products[1] }}</h4>
     <p>{{ prices[1] }}만원</p>
+    <button @click="addCount">허위매물신고</button>
+    <span>신고 수 : {{ buttonCount[1] }}</span>
   </div>
   <div>
     <h4>{{ products[2] }}</h4>
     <p>{{ prices[2] }}만원</p>
+    <button @click="addCount">허위매물신고</button>
+    <span>신고 수 : {{ buttonCount[2] }}</span>
   </div>
 
   <h2 :style="style1">반복문 사용해서 다시 만들기</h2>
   <div v-for="(product, i) in products" :key="i">
     <h4>{{ product }}</h4>
     <p>{{ prices[0] }}만원</p>
+    <!-- 반복문을 한번 돌릴때 데이터 2가지를 어떻게 가져오는걸까? -->
   </div>
 </template>
 
@@ -37,7 +45,15 @@ export default {
       menuName: ["Home", "Rooms", "About"],
       // HTML 속성도 데이터바인딩이 가능하다. HTML태그 안에 사용 시 앞에 콜론 붙일 것
       style1: "color: tomato",
+      buttonCount: [0, 0, 0],
     };
+  },
+  methods: {
+    addCount(event) {
+      event.target.buttonCount[this]++;
+      // 함수를 만들어서 사용하고 싶을떄 methos안에 함수를 만들어서 사용
+      // 데이터를 가져다 쓰고싶을때 앞에 this 사용하기
+    },
   },
   components: {},
 };
