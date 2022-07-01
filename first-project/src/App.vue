@@ -9,20 +9,20 @@
   <div>
     <h4>{{ products[0] }}</h4>
     <p>{{ prices[0] }}만원</p>
-    <button @click="addCount">허위매물신고</button>
+    <button @click="buttonCount[0]++">허위매물신고</button>
     <!-- 이벤트리스너 사용하기 : v-on:click=" " 혹은 @click=" " -->
     <span>신고 수 : {{ buttonCount[0] }}</span>
   </div>
   <div>
     <h4>{{ products[1] }}</h4>
     <p>{{ prices[1] }}만원</p>
-    <button @click="addCount">허위매물신고</button>
+    <button @click="buttonCount[1]++">허위매물신고</button>
     <span>신고 수 : {{ buttonCount[1] }}</span>
   </div>
   <div>
     <h4>{{ products[2] }}</h4>
     <p>{{ prices[2] }}만원</p>
-    <button @click="addCount">허위매물신고</button>
+    <button @click="buttonCount[2]++">허위매물신고</button>
     <span>신고 수 : {{ buttonCount[2] }}</span>
   </div>
 
@@ -49,8 +49,8 @@ export default {
     };
   },
   methods: {
-    addCount(event) {
-      event.target.buttonCount[this]++;
+    addCount() {
+      this.buttonCount++;
       // 함수를 만들어서 사용하고 싶을떄 methos안에 함수를 만들어서 사용
       // 데이터를 가져다 쓰고싶을때 앞에 this 사용하기
     },
