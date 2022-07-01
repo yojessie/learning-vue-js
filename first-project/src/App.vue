@@ -1,10 +1,19 @@
 <template>
-  <div class="navigation">
+  <aside class="overlay" v-if="hidden">
+    <!-- 조건문을 사용하고 싶을때 v-if 사용, 조건문이 참일때 이 영역을 보여준다. -->
+    <div class="modal">
+      <h4>상세페이지 타이틀</h4>
+      <p>상세페이지 내용</p>
+      <button @click="hidden = false">닫기</button>
+    </div>
+  </aside>
+
+  <nav class="navigation">
     <a v-for="(menu, i) in menuName" :key="i">{{ menu }}</a>
     <!-- vue의 반복문 : v-for="변수명 in 자료이름" :key="자료이름" -->
     <!-- 변수는 각각의 아이템이 된다 -->
     <!-- 변수는 두개까지 만들 수 있고, 오른쪽 변수는 1씩 증가하는 정수이다. 오른쪽 변수를 key값으로 활용한다. -->
-  </div>
+  </nav>
 
   <section class="section">
     <div>
@@ -28,10 +37,12 @@
     </div>
   </section>
 
+  <h4 :style="style1">위 내용 반복문 사용해서 하단에 다시 생성</h4>
+
   <section class="section">
-    <h4 :style="style1">위 내용 반복문 사용해서 다시 만들기</h4>
     <div v-for="(product, i) in productList" :key="i">
-      <h3>{{ product.name }}</h3>
+      <img :src="product.image" class="room-img" />
+      <h3 @click="hidden = true">{{ product.name }}</h3>
       <p>{{ product.price }}만원</p>
       <button @click="product.buttonCount++">허위매물신고</button>
       <span>신고 수 : {{ product.buttonCount }}</span>
@@ -40,6 +51,10 @@
 </template>
 
 <script>
+import image1 from "./assets/img-01.jpeg";
+import image2 from "./assets/img-02.jpeg";
+import image3 from "./assets/img-03.jpeg";
+
 export default {
   name: "App",
   data() {
@@ -53,10 +68,28 @@ export default {
       buttonCount: [0, 0, 0],
       // 반복문용 데이터
       productList: [
-        { name: "역삼동원룸", price: 50, buttonCount: 0 },
-        { name: "천호동원룸", price: 60, buttonCount: 0 },
-        { name: "자양동원룸", price: 100, buttonCount: 0 },
+        {
+          name: "미니멀한 집",
+          price: 50,
+          buttonCount: 0,
+          image: image1,
+        },
+        {
+          name: "포근한 집",
+          price: 60,
+          buttonCount: 0,
+          image: image2,
+        },
+        {
+          name: "깔끔한 집",
+          price: 100,
+          buttonCount: 0,
+          image: image3,
+        },
       ],
+      // UI 상태 컨트롤
+      // 리액트로 말하자면 useState의 기능
+      hidden: false,
     };
   },
   methods: {
@@ -71,12 +104,28 @@ export default {
 </script>
 
 <style>
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
   text-align: center;
-  color: #2c3e50;
+  box-sizing: border-box;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  width: 500px;
   padding: 40px;
+  margin: 40px auto;
+  border-radius: 8px;
+  background-color: #fff;
 }
 
 button {
@@ -86,21 +135,29 @@ button {
 .navigation {
   background-color: tomato;
   padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 40px;
 }
 
 .navigation a {
   font-size: 24px;
   font-weight: 700;
   color: white;
-  padding: 16px 8px;
+  padding: 8px 16px;
 }
 
 .section {
   padding: 40px;
-  border-radius: 8px;
   background-color: #f2f2f2;
   margin-bottom: 40px;
+}
+
+.section div {
+  margin-bottom: 24px;
+}
+
+.room-img {
+  width: 400px;
+  height: 260px;
+  border-radius: 8px;
 }
 </style>
