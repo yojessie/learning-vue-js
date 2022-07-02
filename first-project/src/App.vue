@@ -1,9 +1,14 @@
 <template>
   <aside class="overlay" v-if="hidden">
     <!-- 조건문을 사용하고 싶을때 v-if 사용, 조건문이 참일때 이 영역을 보여준다. -->
+    <!-- v-if : 조건문이 참일때 컴포넌트 보여줌 -->
+    <!-- v-else-if : 조건문이 거짓일때 보여줌 -->
+    <!-- v-else : 위 내용까지 다 거짓일때 보여줌 -->
     <div class="modal">
-      <h4>상세페이지 타이틀</h4>
-      <p>상세페이지 내용</p>
+      <img :src="roomData[clicked].image" class="room-img" />
+      <h2>{{ roomData[clicked].title }}</h2>
+      <p>{{ roomData[clicked].content }}</p>
+      <p>{{ roomData[clicked].price }}만원</p>
       <button @click="hidden = false">닫기</button>
     </div>
   </aside>
@@ -37,23 +42,29 @@
     </div>
   </section>
 
-  <h4 :style="style1">위 내용 반복문 사용해서 하단에 다시 생성</h4>
+  <h4 :style="redText">위 내용 반복문 사용해서 하단에 다시 생성</h4>
 
   <section class="section">
-    <div v-for="(product, i) in productList" :key="i">
+    <div v-for="(product, i) in roomData" :key="i">
       <img :src="product.image" class="room-img" />
-      <h3 @click="hidden = true">{{ product.name }}</h3>
-      <p>{{ product.price }}만원</p>
-      <button @click="product.buttonCount++">허위매물신고</button>
-      <span>신고 수 : {{ product.buttonCount }}</span>
+      <h3
+        @click="
+          hidden = true;
+          clicked = product.id;
+        "
+      >
+        {{ product.title }}
+      </h3>
+      <p>{{ product.content }}</p>
+      <p :style="redText">{{ product.price }}만원</p>
+      <button @click="product.buttonCount++">추천하기</button>
+      <span>추천수 : {{ product.buttonCount }}</span>
     </div>
   </section>
 </template>
 
 <script>
-import image1 from "./assets/img-01.jpeg";
-import image2 from "./assets/img-02.jpeg";
-import image3 from "./assets/img-03.jpeg";
+import roomData from "./assets/roomData.js";
 
 export default {
   name: "App",
@@ -64,40 +75,20 @@ export default {
       prices: [50, 60, 100],
       menuName: ["Home", "Rooms", "About"],
       // HTML 속성도 데이터바인딩이 가능하다. HTML태그 안에 사용 시 앞에 콜론 붙일 것
-      style1: "color: tomato",
+      redText: "color: tomato",
       buttonCount: [0, 0, 0],
-      // 반복문용 데이터
-      productList: [
-        {
-          name: "미니멀한 집",
-          price: 50,
-          buttonCount: 0,
-          image: image1,
-        },
-        {
-          name: "포근한 집",
-          price: 60,
-          buttonCount: 0,
-          image: image2,
-        },
-        {
-          name: "깔끔한 집",
-          price: 100,
-          buttonCount: 0,
-          image: image3,
-        },
-      ],
       // UI 상태 컨트롤
       // 리액트로 말하자면 useState의 기능
       hidden: false,
+      // 데이터 파일 import
+      roomData: roomData,
+      // 모달 내 각 아이템 데이터 노출하기
+      clicked: 0,
     };
   },
   methods: {
-    addCount() {
-      this.buttonCount++;
-      // 함수를 만들어서 사용하고 싶을떄 methos안에 함수를 만들어서 사용
-      // 데이터를 가져다 쓰고싶을때 앞에 this 사용하기
-    },
+    // 함수를 만들어서 사용하고 싶을떄 methos안에 함수를 만들어서 사용
+    // 데이터를 가져다 쓰고싶을때 앞에 this 사용하기
   },
   components: {},
 };
@@ -129,7 +120,7 @@ body {
 }
 
 button {
-  margin-right: 4px;
+  margin-right: 6px;
 }
 
 .navigation {
@@ -153,6 +144,11 @@ button {
 
 .section div {
   margin-bottom: 24px;
+}
+
+.section div h3:hover {
+  cursor: pointer;
+  opacity: 0.5;
 }
 
 .room-img {
