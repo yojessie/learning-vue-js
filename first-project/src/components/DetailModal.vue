@@ -9,14 +9,21 @@
       <h2>{{ roomData[clicked].title }}</h2>
       <p>{{ roomData[clicked].content }}</p>
       <p>{{ roomData[clicked].price }}만원</p>
-      <button @click="hidden = false">닫기</button>
+      <!-- <button @click="hidden = false">닫기</button> -->
     </div>
   </aside>
 </template>
 
 <script>
 export default {
-  name: DetailModal,
+  name: "DetailModal",
+  props: {
+    roomData: Object,
+    clicked: Number,
+    hidden: Boolean,
+    // 부모 컴포넌트에게서 받아온 데이터의 자료형 이름을 적어준다
+    // 받아온 데이터의 값을 자식 컴포넌트가 재할당 할 수 없다. read-only
+  },
 };
 </script>
 

@@ -1,5 +1,6 @@
 <template>
-  <DetailModal />
+  <!-- 부모가 가진 데이터를 자식컴포넌트가 사용하고 싶으면 props로 전해주기 -->
+  <DetailModal :roomData="roomData" :clicked="clicked" :hidden="hidden" />
 
   <nav class="navigation">
     <a v-for="(menu, i) in menuName" :key="i">{{ menu }}</a>
