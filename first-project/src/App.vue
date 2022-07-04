@@ -1,6 +1,11 @@
 <template>
   <!-- 부모가 가진 데이터를 자식컴포넌트가 사용하고 싶으면 props로 전해주기 -->
-  <DetailModal :roomData="roomData" :clicked="clicked" :hidden="hidden" />
+  <DetailModal
+    @handleModal="hidden = false"
+    :roomData="roomData"
+    :clicked="clicked"
+    :hidden="hidden"
+  />
 
   <nav class="navigation">
     <a v-for="(menu, i) in menuName" :key="i">{{ menu }}</a>
@@ -33,24 +38,19 @@
     </div>
   </section>
 
-  <h4 :style="redText">위 내용 반복문 사용해서 하단에 다시 생성</h4>
-
+  <h4>위 내용 반복문 사용해서 하단에 다시 생성</h4>
   <section class="section">
-    <div v-for="(product, i) in roomData" :key="i">
-      <img :src="product.image" class="room-img" />
-      <h3
-        @click="
-          hidden = true;
-          clicked = product.id;
-        "
-      >
-        {{ product.title }}
-      </h3>
-      <p>{{ product.content }}</p>
-      <p :style="redText">{{ product.price }}만원</p>
-      <button @click="product.buttonCount++">추천하기</button>
-      <span>추천수 : {{ product.buttonCount }}</span>
-    </div>
+    <ProductCard
+      @handleTitle="
+        hidden = true;
+        clicked = $event;
+      "
+      @handleButton="product.buttonCount++"
+      :product="roomData[i]"
+      v-for="(product, i) in roomData"
+      :key="i"
+    />
+    <!-- 자식 컴포넌트에서 보낸 데이터 가져올때는 $event -->
   </section>
 </template>
 
@@ -58,6 +58,7 @@
 import roomData from "./assets/roomData.js";
 import DiscountBanner from "./components/DiscountBanner.vue";
 import DetailModal from "./components/DetailModal.vue";
+import ProductCard from "./components/ProductCard.vue";
 
 export default {
   name: "App",
@@ -67,8 +68,6 @@ export default {
       products: ["역삼동원룸", "천호동원룸", "마포구원룸"],
       prices: [50, 60, 100],
       menuName: ["Home", "Rooms", "About"],
-      // HTML 속성도 데이터바인딩이 가능하다. HTML태그 안에 사용 시 앞에 콜론 붙일 것
-      redText: "color: tomato",
       buttonCount: [0, 0, 0],
       // UI 상태 컨트롤
       // 리액트로 말하자면 useState의 기능
@@ -81,12 +80,13 @@ export default {
   },
   methods: {
     // 함수를 만들어서 사용하고 싶을떄 methos안에 함수를 만들어서 사용
-    // 데이터를 가져다 쓰고싶을때 앞에 this 사용하기
+    // 데이터를 가져다 쓰고싶을때 앞에 this 사용하기 📌
   },
   components: {
     // 만들어둔 컴포넌트 파일을 import 해와서 components 오브젝트에 등록 (key: value)
     DiscountBanner,
     DetailModal,
+    ProductCard,
   },
 };
 </script>
