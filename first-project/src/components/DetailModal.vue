@@ -9,7 +9,7 @@
       <h2>{{ roomData[clicked].title }}</h2>
       <p>{{ roomData[clicked].content }}</p>
       <p>{{ roomData[clicked].price }}만원</p>
-      <button @click="$eimt('handleModal')">닫기</button>
+      <button @click="$emit('handleModal')">닫기</button>
       <!-- 부모에게 데이터를 수정요청 $emit('작명', '데이터') -->
     </div>
   </aside>

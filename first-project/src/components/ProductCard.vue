@@ -15,7 +15,7 @@
 export default {
   name: "ProductCard",
   props: {
-    product: Array,
+    product: Object,
     clicked: Number,
     hidden: Boolean,
   },
