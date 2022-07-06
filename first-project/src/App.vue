@@ -1,11 +1,16 @@
 <template>
   <!-- 부모가 가진 데이터를 자식컴포넌트가 사용하고 싶으면 props로 전해주기 -->
-  <DetailModal
-    @handleModal="hidden = false"
-    :roomData="roomData"
-    :clicked="clicked"
-    :hidden="hidden"
-  />
+  <!-- Animation을 줄때, :class="{클래스명 : 조건}" 을 넣어주면, 조건값이 참일때만 클래스를 붙여준다. -->
+  <!-- <div class="modal-start" :class="{ 'modal-end': hidden }"> -->
+  <!-- 위와 같이 쓸 수도 있지만, transition을 줄 수도 있다. -->
+  <transition name="fade">
+    <DetailModal
+      @handleModal="hidden = false"
+      :roomData="roomData"
+      :clicked="clicked"
+      :hidden="hidden"
+    />
+  </transition>
 
   <nav class="navigation">
     <a v-for="(menu, i) in menuName" :key="i">{{ menu }}</a>
@@ -135,5 +140,34 @@ button {
   width: 400px;
   height: 260px;
   border-radius: 8px;
+}
+
+.modal-start {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.modal-end {
+  opacity: 1;
+}
+
+/* vue의 transition animation */
+.fade-enter-from {
+  transform: translateY(-2000px);
+}
+.fade-enter-active {
+  transition: transform 300ms ease-in-out;
+}
+.fade-enter-to {
+  transform: translateY(0px);
+}
+.fade-leave-from {
+  transform: translateY(0px);
+}
+.fade-leave-active {
+  transition: transform 300ms ease-in-out;
+}
+.fade-leave-to {
+  transform: translateY(-2000px);
 }
 </style>
