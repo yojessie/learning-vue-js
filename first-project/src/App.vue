@@ -22,29 +22,12 @@
   <DiscountBanner />
 
   <section class="section">
-    <div>
-      <h3>{{ products[0] }}</h3>
-      <p>{{ prices[0] }}만원</p>
-      <button @click="buttonCount[0]++">허위매물신고</button>
-      <!-- 이벤트리스너 사용하기 : v-on:click=" " 혹은 @click=" " -->
-      <span>신고 수 : {{ buttonCount[0] }}</span>
+    <div class="button-group">
+      <button @click="sortLow">낮은 가격순 정렬</button>
+      <button @click="sortHigh">높은 가격순 정렬</button>
+      <button @click="sortText">이름순 정렬</button>
+      <button @click="sortReset">초기화</button>
     </div>
-    <div>
-      <h3>{{ products[1] }}</h3>
-      <p>{{ prices[1] }}만원</p>
-      <button @click="buttonCount[1]++">허위매물신고</button>
-      <span>신고 수 : {{ buttonCount[1] }}</span>
-    </div>
-    <div>
-      <h3>{{ products[2] }}</h3>
-      <p>{{ prices[2] }}만원</p>
-      <button @click="buttonCount[2]++">허위매물신고</button>
-      <span>신고 수 : {{ buttonCount[2] }}</span>
-    </div>
-  </section>
-
-  <h4>위 내용 반복문 사용해서 하단에 다시 생성</h4>
-  <section class="section">
     <ProductCard
       @handleTitle="
         hidden = true;
@@ -78,6 +61,8 @@ export default {
       // 리액트로 말하자면 useState의 기능
       hidden: false,
       // 데이터 파일 import
+      // array, object 데이터의 별개 사본을 만들기 [...arr] : spread operator
+      roomDataOrigin: [...roomData],
       roomData: roomData,
       // 모달 내 각 아이템 데이터 노출하기
       clicked: 0,
@@ -86,6 +71,32 @@ export default {
   methods: {
     // 함수를 만들어서 사용하고 싶을떄 methos안에 함수를 만들어서 사용
     // 데이터를 가져다 쓰고싶을때 앞에 this 사용하기 📌
+    sortLow() {
+      this.roomData.sort(function (a, b) {
+        return a.price - b.price;
+      });
+      // sort함수 동작원리 확인 필요. sort함수는 원본데이터를 변형시키므로, 원본을 별도 저장해놔야함.
+    },
+    sortHigh() {
+      this.roomData.sort(function (a, b) {
+        return b.price - a.price;
+      });
+    },
+    sortText() {
+      this.roomData.sort(function (a, b) {
+        const upperCaseA = a.title.toUpperCase();
+        const upperCaseB = b.title.toUpperCase();
+
+        if (upperCaseA > upperCaseB) return 1;
+        if (upperCaseA < upperCaseB) return -1;
+        if (upperCaseA === upperCaseB) return 0;
+      });
+    },
+    sortReset() {
+      this.roomData = [...this.roomDataOrigin];
+      // arr자료 = arr자료 의 방식으로 값을 재할당하면, array 자료의 경우 값을 '공유'해달라는 의미가 된다.
+      // 따라서 재할당 하려는 값을 다시 사본으로 만들어서 재할당한다.
+    },
   },
   components: {
     // 만들어둔 컴포넌트 파일을 import 해와서 components 오브젝트에 등록 (key: value)
@@ -136,6 +147,10 @@ button {
   opacity: 0.5;
 }
 
+.button-group {
+  margin-bottom: 24px;
+}
+
 .room-img {
   width: 400px;
   height: 260px;
@@ -156,7 +171,7 @@ button {
   transform: translateY(-2000px);
 }
 .fade-enter-active {
-  transition: transform 300ms ease-in-out;
+  transition: transform 500ms ease-in-out;
 }
 .fade-enter-to {
   transform: translateY(0px);
@@ -165,7 +180,7 @@ button {
   transform: translateY(0px);
 }
 .fade-leave-active {
-  transition: transform 300ms ease-in-out;
+  transition: transform 500ms ease-in-out;
 }
 .fade-leave-to {
   transform: translateY(-2000px);
