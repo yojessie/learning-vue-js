@@ -19,7 +19,7 @@
     <!-- 변수는 두개까지 만들 수 있고, 오른쪽 변수는 1씩 증가하는 정수이다. 오른쪽 변수를 key값으로 활용한다. -->
   </nav>
 
-  <DiscountBanner />
+  <DiscountBanner v-if="showBanner" />
 
   <section class="section">
     <div class="button-group">
@@ -60,6 +60,7 @@ export default {
       // UI 상태 컨트롤
       // 리액트로 말하자면 useState의 기능
       hidden: false,
+      showBanner: true,
       // 데이터 파일 import
       // array, object 데이터의 별개 사본을 만들기 [...arr] : spread operator
       roomDataOrigin: [...roomData],
@@ -97,6 +98,18 @@ export default {
       // arr자료 = arr자료 의 방식으로 값을 재할당하면, array 자료의 경우 값을 '공유'해달라는 의미가 된다.
       // 따라서 재할당 하려는 값을 다시 사본으로 만들어서 재할당한다.
     },
+  },
+  // lifecycle hook
+  // beforeCreate()
+  // created()
+  // beforeMount()
+  // mounted() ...
+  // ajax 요청은 주로 created 나 mounted 에 hook
+  mounted() {
+    setTimeout(() => {
+      this.showBanner = false;
+      // arrow function 필요
+    }, 2000);
   },
   components: {
     // 만들어둔 컴포넌트 파일을 import 해와서 components 오브젝트에 등록 (key: value)
