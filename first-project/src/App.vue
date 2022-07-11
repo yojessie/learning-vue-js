@@ -19,7 +19,7 @@
     <!-- 변수는 두개까지 만들 수 있고, 오른쪽 변수는 1씩 증가하는 정수이다. 오른쪽 변수를 key값으로 활용한다. -->
   </nav>
 
-  <DiscountBanner v-if="showBanner" />
+  <DiscountBanner v-if="showBanner" :percent="percent" />
 
   <section class="section">
     <div class="button-group">
@@ -67,6 +67,7 @@ export default {
       roomData: roomData,
       // 모달 내 각 아이템 데이터 노출하기
       clicked: 0,
+      percent: 20,
     };
   },
   methods: {
@@ -106,10 +107,13 @@ export default {
   // mounted() ...
   // ajax 요청은 주로 created 나 mounted 에 hook
   mounted() {
+    setInterval(() => {
+      this.percent = this.percent - 1;
+    }, 1000);
     setTimeout(() => {
       this.showBanner = false;
       // arrow function 필요
-    }, 2000);
+    }, 6000);
   },
   components: {
     // 만들어둔 컴포넌트 파일을 import 해와서 components 오브젝트에 등록 (key: value)
@@ -180,22 +184,22 @@ button {
 }
 
 /* vue의 transition animation */
-.fade-enter-from {
-  transform: translateY(-2000px);
+.fade-enter {
+  transform: translateY(-200px);
 }
 .fade-enter-active {
-  transition: transform 500ms ease-in-out;
+  transition: all 1s ease-in-out;
 }
 .fade-enter-to {
   transform: translateY(0px);
 }
-.fade-leave-from {
+.fade-leave {
   transform: translateY(0px);
 }
 .fade-leave-active {
-  transition: transform 500ms ease-in-out;
+  transition: all 1s ease-in-out;
 }
 .fade-leave-to {
-  transform: translateY(-2000px);
+  transform: translateY(-50px);
 }
 </style>
